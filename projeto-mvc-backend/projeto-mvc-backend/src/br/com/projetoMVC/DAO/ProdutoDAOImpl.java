@@ -7,18 +7,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import br.com.projetoMVC.model.Produto;
 import br.com.projetoMVC.util.ConnectionFactory;
 
 public class ProdutoDAOImpl implements GenericDAO {
-
+	
 	private Connection conn;
 	
-	// Construtor vazio da classe ProdutoDAOImpl, iniciando a conexão com o banco
+	// Construtor vazio da classe ProdutoDAOImpl, iniciando a conexão com o banco 
 	// de dados através da classe ConnectionFactory
-	
 	public ProdutoDAOImpl () throws Exception {
 		try {
 			this.conn = ConnectionFactory.getConnection();
@@ -27,6 +24,7 @@ public class ProdutoDAOImpl implements GenericDAO {
 			throw new Exception(e.getMessage());
 		}
 	}
+
 	@Override
 	public List<Object> listarTodos() {
 		
@@ -38,20 +36,20 @@ public class ProdutoDAOImpl implements GenericDAO {
 		try {
 			stmt = conn.prepareStatement(sql);
 			rs = stmt.executeQuery();
-			while(rs.next());
+			while(rs.next()) {
 				Produto produto = new Produto();
-				produto.setId((rs.getInt("id")));
+				produto.setId(rs.getInt("id"));
 				produto.setDescricao(rs.getString("descricao"));
 				lista.add(produto);
-			
-		} catch (SQLException ex) {
-			System.out.println("Problemas na DAO ao lista Produto!" + ex.getMessage());
+			}
+		} catch(SQLException ex) {
+			System.out.println("Problemas na DAO ao listar Produto! " + ex.getMessage());
 			ex.printStackTrace();
 		} finally {
 			try {
 				ConnectionFactory.closeConnection(conn, stmt, rs);
-			}catch(Exception e) {
-				System.out.println("Problema na DAO ao fechar connexão!" + e.getLocalizedMessage());
+			} catch(Exception e) {
+				System.out.println("Problemas na DAO ao fechar conexão! " + e.getMessage());
 			}
 		}
 		
@@ -82,4 +80,4 @@ public class ProdutoDAOImpl implements GenericDAO {
 		
 	}
 
-}
+}	
