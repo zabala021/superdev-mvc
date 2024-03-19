@@ -25,5 +25,39 @@ public class produtoController {
 				return null;
 			}
 		}
+		
+		public boolean cadastrar (Produto produto) {
+			try {
+				GenericDAO dao = new ProdutoDAOImpl();
+				dao.cadastrar(produto);
+				return true;
+			} catch (Exception e) {
+				System.out.println("Problemas na controller para cadastrar produto" + e.getMessage() );
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public boolean alterar (Produto produto) {
+			try {
+				GenericDAO dao = new ProdutoDAOImpl();
+				dao.alterar(produto);
+				return true;
+			} catch (Exception e) {
+				System.out.println("Problemas na Controller para alterar Produto" + e.getMessage());
+				e.printStackTrace();
+				return false;
+			}
+		}
+		
+		public void excluir(int id) {
+			try {
+				GenericDAO dao = new ProdutoDAOImpl();
+				dao.excluir(id);
+			} catch (Exception e) {
+				System.out.println("Problemas na Controler para excluir Produto" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
 	
 }

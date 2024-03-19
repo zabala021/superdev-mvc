@@ -9,11 +9,15 @@ public class Main {
 		
 		produtoController controller = new produtoController();
 		
+		Produto p = new Produto();
+		p.setDescricao("Mouse");
+		controller.cadastrar(p);
+		
 		System.out.println("- Lista de Produtos - ");
 		System.out.println("Id    Descrição");
 		for (Produto produto : controller.listarTodos()) {
 		
-		System.out.println(produto.getId() + "    " + produto.getDescricao());
+		System.out.println(produto.getId() + "     " + produto.getDescricao());
 		
 		}
 		

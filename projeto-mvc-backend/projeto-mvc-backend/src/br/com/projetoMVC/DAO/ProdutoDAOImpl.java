@@ -146,16 +146,17 @@ public class ProdutoDAOImpl implements GenericDAO {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, id);
 			stmt.execute();
-			} catch (SQLException ex) {
-				System.out.println("Problema na DAO ao excluir Produto! " + ex.getMessage());
-			} finally {
-				try {
-					ConnectionFactory.closeConnection(conn, stmt, null);
-				} catch (Exception e) {
-					System.out.println("Problemas na DAO ao fechar conexão!" + e.getMessage());
-					e.printStackTrace();
-				}
+		} catch (SQLException ex) {
+			System.out.println("Problema na DAO ao excluir Produto! " + ex.getMessage());
+		} finally {
+			try {
+				ConnectionFactory.closeConnection(conn, stmt, null);
+			} catch (Exception e) {
+				System.out.println("Problemas na DAO ao fechar conexão!" + e.getMessage());
+				e.printStackTrace();
 			}
+		}
 
 	}
+
 }
