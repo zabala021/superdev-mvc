@@ -91,11 +91,11 @@ public class ProdutoDAOImpl implements GenericDAO {
 
 	@Override
 	public boolean cadastrar(Object object) {
-
+		
 		Produto produto = (Produto) object;
 		PreparedStatement stmt = null;
 		String sql = "INSERT INTO produto (descricao) VALUES (?)";
-
+		
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, produto.getDescricao());
@@ -107,12 +107,13 @@ public class ProdutoDAOImpl implements GenericDAO {
 			return false;
 		} finally {
 			try {
-				ConnectionFactory.closeConnection(conn, null);
+				ConnectionFactory.closeConnection(conn, stmt, null);
 			} catch (Exception e) {
-				System.out.println("Problemas na DAO ao fechar conexão " + e.getMessage());
+				System.out.println("Problemas na DAO ao fechar conexão! " + e.getMessage());
 				e.printStackTrace();
-			}
+			}		
 		}
+		
 	}
 
 	@Override
@@ -123,40 +124,41 @@ public class ProdutoDAOImpl implements GenericDAO {
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, produto.getDescricao());
-			stmt.setInt(1, produto.getId());
+			stmt.setInt(2, produto.getId());
+			stmt.execute();
+			return true;
 		} catch (SQLException ex) {
-			System.out.println("Erro na DAO ao alterar P`roduto " + ex.getMessage());
+			System.out.println("Erros na DAO ao alterar Produto! " + ex.getMessage());
 			ex.printStackTrace();
 			return false;
 		} finally {
 			try {
-
+				ConnectionFactory.closeConnection(conn, stmt, null);
 			} catch (Exception e) {
-				System.out.println("Problema na DAO ao fechar conexão! " + e.getMessage());
+				System.out.println("Problemas na DAO ao fechar conexão! " + e.getMessage());
 				e.printStackTrace();
-			}
+			}	
 		}
 	}
 
 	@Override
 	public void excluir(int id) {
 		PreparedStatement stmt = null;
-		String sql = "DELETE FROM produto WHARE id = ?";
+		String sql = "DELETE FROM produto WHERE id = ?";
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, id);
 			stmt.execute();
 		} catch (SQLException ex) {
-			System.out.println("Problema na DAO ao excluir Produto! " + ex.getMessage());
+			System.out.println("Problemas na DAO ao excluir Produto! " + ex.getMessage());
 		} finally {
 			try {
 				ConnectionFactory.closeConnection(conn, stmt, null);
 			} catch (Exception e) {
-				System.out.println("Problemas na DAO ao fechar conexão!" + e.getMessage());
+				System.out.println("Problemas na DAO ao fechar conexão! " + e.getMessage());
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 }
